@@ -21,6 +21,7 @@ public class UserController {
 
     @PostMapping("/")
     public ResponseEntity<UserDto> addUser(@RequestBody User user) {
+        System.out.println(user.getEmail()+" "+user.getPassword());
         return new ResponseEntity<>(service.addUser(user), HttpStatus.CREATED);
     }
 

@@ -32,8 +32,10 @@ public class BasicConfig {
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(
                         request-> request
+                                .requestMatchers("/users/").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/users/login").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/users/")
+                                .requestMatchers(HttpMethod.POST, "/users/").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)

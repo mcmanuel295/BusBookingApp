@@ -15,14 +15,14 @@ public class User {
     private Long id;
 
     @Column(
-            name = "first_name",
+            name = "firstname",
             length = 20,
             nullable = false
     )
     private String firstName;
 
     @Column(
-            name = "last_name",
+            name = "lastname",
             length = 20,
             nullable = false
     )
@@ -44,16 +44,6 @@ public class User {
     @OneToMany
     private List<Booking> booking;
 
-    public User(Long id, String firstName, String lastName, String email, String password, Role role, BigDecimal WalletAmount, List<Booking> booking) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.WalletAmount = WalletAmount;
-        this.booking = booking;
-    }
 
     public User() {
     }
