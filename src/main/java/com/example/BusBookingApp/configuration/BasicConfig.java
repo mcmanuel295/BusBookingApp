@@ -13,7 +13,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -27,23 +32,32 @@ public class BasicConfig {
     }
 
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
+        System.out.println("IN THE SECURITY FILTER CHAIM METHOD");
+
         return security
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(
                         request-> request
-                                .requestMatchers("/users/").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/users/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/users/").permitAll()
                                 .anyRequest().authenticated()
                 )
+
+                .oauth2Login(oauth ->
+                        oauth.userInfoEndpoint( userInfo ->
+                                userInfo.userService(oauth2UserService())
+                        ).successHandler(authenticationSuccessHandler())
+                )
+
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
+                .authenticationProvider(authenticationProvider())
                 .sessionManagement( session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
 
     }
+
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
@@ -57,4 +71,15 @@ public class BasicConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
+    @Bean
+    public OAuth2UserService<OAuth2UserRequest,OAuth2User> oauth2UserService() {
+        return new DefaultOAuth2UserService();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler(){
+        return (request, response, authentication) -> response.sendRedirect("/");
+    }
+
 }

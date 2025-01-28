@@ -25,7 +25,6 @@ public class BookingController {
 
     @GetMapping("/{id}")
     public ResponseEntity<BookingDto> getBookings(Long userId){
-
         return ResponseEntity.ok().body(service.getBookings(userId));
 
     }

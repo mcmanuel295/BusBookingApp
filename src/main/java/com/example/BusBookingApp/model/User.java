@@ -15,14 +15,14 @@ public class User {
     private Long id;
 
     @Column(
-            name = "firstname",
+            name = "firstName",
             length = 20,
             nullable = false
     )
     private String firstName;
 
     @Column(
-            name = "lastname",
+            name = "lastName",
             length = 20,
             nullable = false
     )
@@ -33,10 +33,14 @@ public class User {
             nullable = false,
             unique = true
     )
+
+    private String fullName =getFullName();
+
     private String email;
 
     private String password;
 
+    @OneToMany
     private Role role;
 
     private BigDecimal WalletAmount;
@@ -63,6 +67,8 @@ public class User {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+        getFirstName();
+
     }
 
     public String getLastName() {
@@ -71,7 +77,17 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+        getFullName();
     }
+
+    public String getFullName() {
+        return getFirstName()+" "+getLastName();
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
 
     public String getEmail() {
         return email;

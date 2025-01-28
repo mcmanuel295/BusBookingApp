@@ -5,4 +5,7 @@ public enum Route {
     ABEOKUTA,
     IBADAN,
     PORTHARCOURT,
+    KADUNA,
+    KANO,
+    BORNO
 }

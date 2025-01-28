@@ -1,13 +1,17 @@
 package com.example.BusBookingApp.service.Imp;
 
+import com.example.BusBookingApp.exception.OurException;
 import com.example.BusBookingApp.model.Bus;
 import com.example.BusBookingApp.model.Driver;
 import com.example.BusBookingApp.model.Route;
 import com.example.BusBookingApp.repository.BusRepository;
 import com.example.BusBookingApp.service.Interface.BusService;
+import org.hibernate.mapping.Collection;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -51,16 +55,42 @@ public class BusServiceImp implements BusService {
     }
 
     @Override
+    public int[] getAllBusesByNumber() {
+        return getAllBuses()
+                .stream()
+                .map(Bus::getBusNumber)
+                .toList().stream()
+                .mapToInt(Integer::intValue)
+                .toArray();
+    }
+
+    @Override
     public void deleteBus(int busId) {
         repo.deleteById(busId);
     }
 
     @Override
-    public String bookASeat(int busId,int seatNumber) {
+    public void bookASeat(int busId,int seatNumber) {
         Bus bus = getBus(busId);
         bus.bookSeat(seatNumber);
-        return "You have booked seat number "+seatNumber;
     }
 
+
+
+    @Override
+    public List<Bus> findByRoute(Route startRoute, Route endRoute) {
+        List<Bus> startRouteBus = repo.findAllByStartRoute(startRoute);
+        List<Bus> endRouteBus =repo.findAllByEndRoute(endRoute);
+
+        try {
+            if (Collections.disjoint(startRouteBus,endRouteBus)) {
+                throw new OurException("Bus With Routes Unavailable");
+            }
+            return startRouteBus.stream().filter(endRouteBus::contains).toList();
+
+        } catch (OurException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

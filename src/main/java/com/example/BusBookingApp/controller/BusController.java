@@ -25,6 +25,8 @@ public class BusController {
         return new ResponseEntity<>(service.createBus(capacity), HttpStatus.CREATED);
     }
 
+
+
     @GetMapping("/{id}")
     public ResponseEntity<Bus> getBus(int budId){
         return ResponseEntity.ok().body(service.getBus(budId));
@@ -53,5 +55,10 @@ public class BusController {
     public ResponseEntity<String> deleteBus(int busId){
         service.deleteBus(busId);
         return ResponseEntity.ok().body("Bus id "+busId+" has been deleted");
+    }
+
+    @GetMapping("/routes")
+    public List<Bus> getBusesByRoute(Route startRroute,Route endRoute){
+        return service.findByRoute(startRroute,endRoute);
     }
 }

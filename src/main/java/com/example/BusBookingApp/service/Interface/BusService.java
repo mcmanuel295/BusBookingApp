@@ -18,6 +18,8 @@ public interface BusService {
 
     List<Bus> getAllBuses();
 
+    int[] getAllBusesByNumber();
+
     void deleteBus(int busId);
 
     static int[] availableSeats(Bus bus) {
@@ -32,6 +34,10 @@ public interface BusService {
         return store.stream().mapToInt(Integer::intValue).toArray();
     }
 
-    String bookASeat(int busId,int seatNumber);
+
+    void bookASeat(int busId,int seatNumber);
+
+    List<Bus> findByRoute(Route startRout,Route endRoute);
+
 
 }

@@ -26,10 +26,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("IN THE DO FILTER CHAIN METHOD");
 
         String header= request.getHeader("Authorization");
-        String token = null;
-        String username = null;
+        String token;
+        String username;
 
         if (header != null && header.startsWith("Bearer ")){
             token = header.substring(7);

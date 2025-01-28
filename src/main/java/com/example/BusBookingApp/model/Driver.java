@@ -1,63 +1,27 @@
 package com.example.BusBookingApp.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
-import org.hibernate.annotations.UuidGenerator;
-import java.util.UUID;
 
 @Entity
-public class Driver {
+public class Driver extends User{
 
-    @Id
-    @UuidGenerator
-    private UUID uuid;
-
-    @Column(nullable = false, length = 50)
-    private String firstName;
-
-    @Column(nullable = false,length = 50)
-    private String lastName;
-
-    private String fullName =getFullName();
 
     @OneToOne
-    private Bus bus;
+    private Bus busDriven;
 
-    public String getFullName() {
-        return getFirstName()+" "+getLastName();
+    public Driver(Bus busDriven) {
+        super();
+        this.busDriven = busDriven;
+        setRole(Role.DRIVER);
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public Bus getBusDriven() {
+        return busDriven;
     }
 
-
-
-    public String getFirstName() {
-        return firstName;
+    public void setBusDriven(Bus busDriven) {
+        this.busDriven = busDriven;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-        getFullName();
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-        getFullName();
-    }
-
-    public Bus getBus() {
-        return bus;
-    }
-
-    public void setBus(Bus bus) {
-        this.bus = bus;
-    }
 }

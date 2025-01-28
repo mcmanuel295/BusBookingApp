@@ -5,9 +5,11 @@ import com.example.BusBookingApp.model.Booking;
 import com.example.BusBookingApp.model.Bus;
 import com.example.BusBookingApp.repository.BookingRepository;
 import com.example.BusBookingApp.service.Interface.BookingService;
+import com.example.BusBookingApp.service.Interface.BusService;
 import com.example.BusBookingApp.utils.UtilsService;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -22,25 +24,44 @@ public class BookingServiceImp implements BookingService {
     }
 
     @Override
-    public BookingDto addBooking(Booking booking) {
-        service.bookASeat(booking.getBusNo(),booking.getSeatNo());
+    public BookingDto addBooking(Booking booking){
+        Bus bus = service.getBus(booking.getBusNo() );
 
-        var savedBooking = repo.save(booking);
+        if(
+                Arrays.binarySearch( BusService.availableSeats(bus),booking.getBusNo()) != -1 ||
+                        Arrays.binarySearch(service.getAllBusesByNumber(),booking.getBusNo())!=-1
+        ){
 
-        return UtilsService.toBookingDto(savedBooking);
+            service.bookASeat(booking.getBusNo(),booking.getSeatNo());
+            var savedBooking = repo.save(booking);
+            return UtilsService.toBookingDto(savedBooking);
+        }
+        throw new RuntimeException("Enter Correct Credentials");
+    }
+
+
+
+    @Override
+    public BookingDto addBookingByRoute(Booking booking,Bus bus) {
+        booking.setBusNo(bus.getBusNumber());
+        return addBooking(booking);
     }
 
 
     @Override
     public BookingDto getBookings(long bookingId) {
-        Booking savedBooking =repo.findById(bookingId).orElseThrow(()-> new RuntimeException("Usere Not Found!!!!"));
+        Booking savedBooking =repo.findById(bookingId).orElseThrow(()-> new RuntimeException("User Not Found!!!!"));
         return UtilsService.toBookingDto(savedBooking);
     }
+
+
 
     @Override
     public void deleteBooking(Long bookingId) {
         repo.deleteById(bookingId);
     }
+
+
 
     @Override
     public List<BookingDto> getAllBookings() {
@@ -48,6 +69,8 @@ public class BookingServiceImp implements BookingService {
                 .map(UtilsService::toBookingDto)
                 .toList();
     }
+
+
 
     @Override
     public BookingDto update(Long bookingId, Booking booking) {

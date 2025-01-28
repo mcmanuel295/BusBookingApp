@@ -22,7 +22,7 @@ public class Bus {
 
     private Route startRoute;
 
-    private Route endRoute;
+    private Route endRoute ;
 
     private ArrayList<LocalTime> departureTime = new ArrayList<>();
 

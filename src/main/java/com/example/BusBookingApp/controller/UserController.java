@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.BusBookingApp.model.Role.ADMIN;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -17,6 +19,20 @@ public class UserController {
 
     public UserController(UserServiceImp service) {
         this.service = service;
+        addFirstUsr();
+    }
+    
+
+    private void addFirstUsr() {
+        User firstUser= new User();
+        firstUser.setFirstName("Emmanuel");
+        firstUser.setLastName("Ogbu");
+        firstUser.setPassword("Oea75357@");
+        firstUser.setEmail("mcmanuel295@gmail.com");
+        firstUser.setRole(ADMIN);
+
+        addUser(firstUser);
+
     }
 
     @PostMapping("/")
