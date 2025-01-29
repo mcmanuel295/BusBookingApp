@@ -1,6 +1,7 @@
 package com.example.BusBookingApp.service.Imp;
 
 import com.example.BusBookingApp.dto.UserDto;
+import com.example.BusBookingApp.exception.UserNotFoundException;
 import com.example.BusBookingApp.model.User;
 import com.example.BusBookingApp.repository.UserRepository;
 import com.example.BusBookingApp.service.Interface.UserService;
@@ -9,7 +10,6 @@ import com.example.BusBookingApp.utils.UtilsService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +43,7 @@ public class UserServiceImp  implements UserService {
     @Override
     public UserDto getUser(Long userId) {
 
-        User savedUser = repo.findById(userId).orElseThrow(()-> new UsernameNotFoundException("The User Not Found!!!"));
+        User savedUser = repo.findById(userId).orElseThrow(()-> new UserNotFoundException("The User Not Found!!!"));
         return UtilsService.toUserDto(savedUser);
 
     }
@@ -57,6 +57,7 @@ public class UserServiceImp  implements UserService {
 
     @Override
     public void deleteUser(long userId) {
+        repo.findById(userId).orElseThrow(()-> new UserNotFoundException("The User Not Found!!!"));
         repo.deleteById(userId);
     }
 
