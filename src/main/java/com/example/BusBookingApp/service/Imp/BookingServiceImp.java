@@ -1,6 +1,7 @@
 package com.example.BusBookingApp.service.Imp;
 
 import com.example.BusBookingApp.dto.BookingDto;
+import com.example.BusBookingApp.exception.BookingNotFoundException;
 import com.example.BusBookingApp.model.Booking;
 import com.example.BusBookingApp.model.Bus;
 import com.example.BusBookingApp.repository.BookingRepository;
@@ -50,7 +51,7 @@ public class BookingServiceImp implements BookingService {
 
     @Override
     public BookingDto getBookings(long bookingId) {
-        Booking savedBooking =repo.findById(bookingId).orElseThrow(()-> new RuntimeException("User Not Found!!!!"));
+        Booking savedBooking =repo.findById(bookingId).orElseThrow(()-> new BookingNotFoundException("Booking Not Found!!!!"));
         return UtilsService.toBookingDto(savedBooking);
     }
 
@@ -58,6 +59,7 @@ public class BookingServiceImp implements BookingService {
 
     @Override
     public void deleteBooking(Long bookingId) {
+        getBookings(bookingId);
         repo.deleteById(bookingId);
     }
 
