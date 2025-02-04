@@ -38,6 +38,7 @@ public class BasicConfig {
                 .authorizeHttpRequests(
                         request-> request
                                 .requestMatchers(HttpMethod.POST,"/users/login").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/users/").permitAll()
                                 .anyRequest().authenticated()
                 )
@@ -47,10 +48,12 @@ public class BasicConfig {
                                 userInfo.userService(oauth2UserService())
                         ).successHandler(authenticationSuccessHandler())
                 )
+//                .oauth2Login(Customizer.withDefaults())
 
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults())
                 .authenticationProvider(authenticationProvider())
                 .sessionManagement( session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

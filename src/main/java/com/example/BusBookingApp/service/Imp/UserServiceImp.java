@@ -2,6 +2,7 @@ package com.example.BusBookingApp.service.Imp;
 
 import com.example.BusBookingApp.dto.UserDto;
 import com.example.BusBookingApp.exception.UserNotFoundException;
+import com.example.BusBookingApp.model.LoginRequest;
 import com.example.BusBookingApp.model.User;
 import com.example.BusBookingApp.repository.UserRepository;
 import com.example.BusBookingApp.service.Interface.UserService;
@@ -13,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -68,7 +70,7 @@ public class UserServiceImp  implements UserService {
     }
 
     @Override
-    public String login(User user) {
+    public String login(LoginRequest user) {
         Authentication authentication = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
 
@@ -80,5 +82,10 @@ public class UserServiceImp  implements UserService {
         return  "failed";
     }
 
+    @Override
+    public void payment(Long userID, BigDecimal amount) {
+        User user = repo.findById(userID).orElseThrow(()-> new UserNotFoundException("User with Id"+userID+" not found"));
+        user.withdraw(amount);
+    }
 
 }

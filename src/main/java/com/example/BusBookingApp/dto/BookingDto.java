@@ -6,7 +6,6 @@ public record BookingDto(
         Long bookingId,
         String origin,
         String destination,
-        LocalDateTime departureDateTime,
-        int duration
-    )
+        LocalDateTime departureDateTime
+)
 {}

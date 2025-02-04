@@ -36,7 +36,6 @@ public class UtilsService {
         booking.setBookingId(dto.bookingId());
         booking.setOrigin(dto.origin());
         booking.setDestination(dto.destination());
-        booking.setDuration(dto.duration());
         return booking;
     }
 
@@ -46,8 +45,7 @@ public class UtilsService {
                 booking.getBookingId(),
                 booking.getOrigin(),
                 booking.getDestination(),
-                booking.getDepartureDate(),
-                booking.getDuration()
+                booking.getDepartureDate()
         );
     }
 }

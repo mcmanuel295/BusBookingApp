@@ -2,10 +2,17 @@ package com.example.BusBookingApp.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 @Entity
 public class User {
@@ -33,99 +40,32 @@ public class User {
             nullable = false,
             unique = true
     )
+    private String fullName =fullName();
 
-    private String fullName =getFullName();
-
+    @Email(message = "email must have the correct format")
     private String email;
 
     private String password;
 
-    @OneToMany
+    @Enumerated(EnumType.STRING)
     private Role role;
 
-    private BigDecimal WalletAmount;
+    private BigDecimal walletAmount;
 
     @OneToMany
     private List<Booking> booking;
 
-
-    public User() {
+    private String fullName(){
+        return  getLastName()+" "+getFirstName();
     }
 
+    public BigDecimal withdraw(BigDecimal amount){
+        if (walletAmount.compareTo(BigDecimal.valueOf(0)) <0 || walletAmount.compareTo(amount)<0 ) {
+            throw new RuntimeException("Invalid transaction");
+        }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-        getFirstName();
-
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-        getFullName();
-    }
-
-    public String getFullName() {
-        return getFirstName()+" "+getLastName();
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Role getRole() {
-        return this.role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public BigDecimal getWalletAmount() {
-        return WalletAmount;
-    }
-
-    public void setWalletAmount(BigDecimal walletAmount) {
-        WalletAmount = walletAmount;
-    }
-
-    public List<Booking> getBooking() {
-        return this.booking;
-    }
-
-    public void setBooking(List<Booking> booking) {
-        this.booking = booking;
+        walletAmount =walletAmount.subtract(amount);
+        this.setWalletAmount(walletAmount);
+        return walletAmount;
     }
 }

@@ -1,8 +1,10 @@
 package com.example.BusBookingApp.service.Interface;
 
 import com.example.BusBookingApp.dto.UserDto;
+import com.example.BusBookingApp.model.LoginRequest;
 import com.example.BusBookingApp.model.User;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface UserService {
@@ -16,6 +18,9 @@ public interface UserService {
 
     UserDto updateUser(User user);
 
-    String login(User user);
+    String login(LoginRequest user);
+
+//    account payment
+    void payment(Long userId, BigDecimal amount);
 
 }
