@@ -79,6 +79,10 @@ public class BasicConfig {
     public OAuth2UserService<OAuth2UserRequest,OAuth2User> oauth2UserService() {
         return new DefaultOAuth2UserService();
     }
-r   
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler(){
+        return (request, response, authentication) -> response.sendRedirect("/");
+    }
 
 }
