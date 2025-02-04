@@ -1,0 +1,33 @@
+Here's a Spring Boot challenge for a Bus System:
+
+Challenge: Bus Management System
+
+Create a Spring Boot application that manages bus operations for a transportation company. The system should allow administrators to:
+
+Register Buses: Add new buses to the system with details such as bus number, route, capacity, and driver information.
+Assign Routes: Assign buses to specific routes, including start and end points, and scheduled departure times.
+Manage Schedules: Create and manage bus schedules, including frequency, departure times, and arrival times.
+Track Bus Locations: Display the current location of each bus on a map (using a library like Leaflet or Google Maps).
+Handle Bookings: Allow passengers to book tickets for specific routes and buses, including seat selection and payment processing.
+Generate Reports: Provide reports on bus performance, including on-time arrival rates, passenger numbers, and revenue generated.
+
+Requirements:
+Use Spring Boot 2.x as the application framework.
+Implement user authentication and authorization using Spring Security.
+Use a database (e.g., MySQL, PostgreSQL) to store bus, route, schedule, and booking data.
+Create RESTful APIs for bus registration, route assignment, schedule management, and booking management.
+Use a mapping library (e.g., ModelMapper) to map between entity objects and DTOs.
+Implement data validation using Bean Validation (JSR-303).
+Use a logging framework (e.g., Logback) for logging application events.
+Write unit tests and integration tests for the application using JUnit and Spring Test.
+
+
+Deliverables:
+A fully functional Spring Boot application with the required features.
+A detailed README file explaining the application's architecture, dependencies, and usage.
+A set of unit tests and integration tests to verify the application's functionality.
+Evaluation Criteria:
+Correctness and completeness of the implementation.
+Code quality, organization, and maintainability.
+Adherence to Spring Boot best practices and conventions.
+Thoroughness and effectiveness of testing.
