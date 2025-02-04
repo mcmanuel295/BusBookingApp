@@ -1,6 +1,7 @@
 package com.example.BusBookingApp.controller;
 
 import com.example.BusBookingApp.dto.UserDto;
+import com.example.BusBookingApp.model.LoginRequest;
 import com.example.BusBookingApp.model.User;
 import com.example.BusBookingApp.service.Imp.UserServiceImp;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,13 @@ public class UserController {
         System.out.println(user.getEmail()+" "+user.getPassword());
         return new ResponseEntity<>(service.addUser(user), HttpStatus.CREATED);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest){
+        service.login(loginRequest);
+        return ResponseEntity.ok("Logged in");
+    }
+
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getUser(@PathVariable Long userId) {

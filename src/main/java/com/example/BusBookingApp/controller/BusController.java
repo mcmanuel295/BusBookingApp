@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 @RestController
@@ -40,8 +41,8 @@ public class BusController {
 
     @PutMapping("/{id}/register")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Bus> registerBus(Bus bus){
-        return ResponseEntity.ok().body(service.registerBus(bus.getBusNumber(),bus.getCapacity(),bus.getDriver()));
+    public ResponseEntity<Bus> registerBus(Bus bus, MultipartFile file){
+        return ResponseEntity.ok().body(service.registerBus(bus.getBusNumber(),bus.getCapacity(),file));
     }
 
     @PutMapping("/{id}/route")

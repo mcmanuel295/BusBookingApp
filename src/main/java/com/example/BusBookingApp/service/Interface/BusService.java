@@ -1,8 +1,8 @@
 package com.example.BusBookingApp.service.Interface;
 
 import com.example.BusBookingApp.model.Bus;
-import com.example.BusBookingApp.model.Driver;
 import com.example.BusBookingApp.model.Route;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,15 +10,17 @@ import java.util.List;
 public interface BusService {
     Bus createBus(int capacity);
 
-    Bus registerBus(int busId, int capacity, Driver driver);
-
-    Bus assignRoute(int busId, Route startRoute,Route endRoute);
+    Bus registerBus(int busId, int capacity, MultipartFile file);
 
     Bus getBus(int budId);
 
     List<Bus> getAllBuses();
 
-    int[] getAllBusesByNumber();
+    List<Bus> getAllBusesWithPagination(Integer pageNumber,Integer pageSize);
+
+    Bus assignRoute(int busId, Route startRoute,Route endRoute);
+
+    int[] getAllBusesNumber();
 
     void deleteBus(int busId);
 
@@ -38,6 +40,8 @@ public interface BusService {
     void bookASeat(int busId,int seatNumber);
 
     List<Bus> findByRoute(Route startRout,Route endRoute);
+
+    List<Bus> findByRouteWithPagination (Route startRout,Route endRoute);
 
 
 }

@@ -1,27 +1,56 @@
 package com.example.BusBookingApp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import lombok.*;
 
+@Data
 @Entity
-public class Driver extends User{
+public class Driver {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long driverId;
+
+    @Column(
+            name = "firstName",
+            length = 20,
+            nullable = false
+    )
+    private String firstName;
+
+    @Column(
+            name = "lastName",
+            length = 20,
+            nullable = false
+    )
+    private String lastName;
+
+    @Column(
+            length = 50,
+            nullable = false,
+            unique = true
+    )
+    private String fullName =getFullName();
+
+    @Email
+    private String email;
+
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 
-    @OneToOne
-    private Bus busDriven;
-
-    public Driver(Bus busDriven) {
+    public Driver() {
         super();
-        this.busDriven = busDriven;
         setRole(Role.DRIVER);
     }
 
-    public Bus getBusDriven() {
-        return busDriven;
+
+    public void setFullName() {
+        fullName = this.firstName +" "+this.lastName;
     }
 
-    public void setBusDriven(Bus busDriven) {
-        this.busDriven = busDriven;
-    }
 
 }

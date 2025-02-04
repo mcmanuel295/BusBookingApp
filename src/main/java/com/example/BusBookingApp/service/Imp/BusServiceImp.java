@@ -6,7 +6,11 @@ import com.example.BusBookingApp.model.Driver;
 import com.example.BusBookingApp.model.Route;
 import com.example.BusBookingApp.repository.BusRepository;
 import com.example.BusBookingApp.service.Interface.BusService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,12 +29,13 @@ public class BusServiceImp implements BusService {
         return repo.save(new Bus(capacity,null));
     }
 
+
     @Override
-    public Bus registerBus(int busId, int capacity, Driver driver) {
+    public Bus registerBus(int busId, int capacity, MultipartFile file) {
         Bus newBus =repo.findById(busId).orElseThrow(()-> new BusNotFoundException("Bus with busId "+busId+" Does Not Exist!!"));
-        newBus.setDriver(driver);
         return repo.save(newBus);
     }
+
 
     @Override
     public Bus assignRoute(int busId, Route startRoute, Route endRoute) {
@@ -41,18 +46,28 @@ public class BusServiceImp implements BusService {
         return repo.save(bus);
     }
 
+
     @Override
     public Bus getBus(int busId) {
         return  repo.findById(busId).orElseThrow(()-> new BusNotFoundException("Bus with busId" +busId+" Not Found"));
     }
+
 
     @Override
     public List<Bus> getAllBuses() {
         return repo.findAll().stream().toList();
     }
 
+
     @Override
-    public int[] getAllBusesByNumber() {
+    public List<Bus> getAllBusesWithPagination(Integer pageNumber, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber,pageSize);
+        Page<Bus> page = repo.findAll(pageable);
+        return page.getContent();
+    }
+
+    @Override
+    public int[] getAllBusesNumber() {
         return getAllBuses()
                 .stream()
                 .map(Bus::getBusNumber)
@@ -84,5 +99,10 @@ public class BusServiceImp implements BusService {
             throw new BusNotFoundException("Bus With start route "+startRoute +"and end route"+endRoute+" Unavailable");
         }
         return startRouteBus.stream().filter(endRouteBus::contains).toList();
+    }
+
+    @Override
+    public List<Bus> findByRouteWithPagination(Route startRout, Route endRoute) {
+        return List.of();
     }
 }

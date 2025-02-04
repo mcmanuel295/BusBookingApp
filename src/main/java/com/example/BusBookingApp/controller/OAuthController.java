@@ -12,7 +12,14 @@ import java.util.Map;
 public class OAuthController {
 
     @GetMapping("/")
+    public String home(){
+        return "welcome";
+    }
+
+    @GetMapping("/auth")
     public Map<String,Object> home(@AuthenticationPrincipal OAuth2User principal){
+        System.out.println("in the home method");
+
         Map<String,Object> response = new HashMap<>();
 
         if (principal != null) {
