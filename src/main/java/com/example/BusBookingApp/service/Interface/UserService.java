@@ -20,12 +20,9 @@ public interface UserService {
     UserDto updateUser(long userId,User user);
 
     String login(LoginRequest user);
-<<<<<<< HEAD
-=======
 
 //    account payment
     void payment(Long userId, BigDecimal amount);
->>>>>>> f0ac1cd9a228c3c8b560a8d4a325143ab3c68480
 
     UserDto withdraw(long userId,BigDecimal amount);
 

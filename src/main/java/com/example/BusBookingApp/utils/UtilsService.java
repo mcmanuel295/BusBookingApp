@@ -33,15 +33,12 @@ public class UtilsService {
     public static Booking toBooking(BookingDto dto){
         var booking =new Booking();
 
-<<<<<<< HEAD
         booking.setBookingId(dto.getBookingId());
         booking.setOrigin(dto.getOrigin());
         booking.setDestination(dto.getDestination());
-=======
-        booking.setBookingId(dto.bookingId());
-        booking.setOrigin(dto.origin());
-        booking.setDestination(dto.destination());
->>>>>>> f0ac1cd9a228c3c8b560a8d4a325143ab3c68480
+        booking.setBookingId(dto.getBookingId());
+        booking.setOrigin(dto.getOrigin());
+        booking.setDestination(dto.getDestination());
         return booking;
     }
 

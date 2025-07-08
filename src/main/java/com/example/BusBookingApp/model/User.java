@@ -8,7 +8,6 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -60,8 +59,6 @@ public class User {
         return  getLastName()+" "+getFirstName();
     }
 
-<<<<<<< HEAD
-=======
     public BigDecimal withdraw(BigDecimal amount){
         if (walletAmount.compareTo(BigDecimal.valueOf(0)) <0 || walletAmount.compareTo(amount)<0 ) {
             throw new RuntimeException("Invalid transaction");
@@ -71,5 +68,4 @@ public class User {
         this.setWalletAmount(walletAmount);
         return walletAmount;
     }
->>>>>>> f0ac1cd9a228c3c8b560a8d4a325143ab3c68480
 }
