@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static com.example.BusBookingApp.model.Role.ADMIN;
@@ -74,5 +75,15 @@ public class UserController {
     @PutMapping("/{userId}")
     public ResponseEntity<UserDto> updateUser(@PathVariable @Valid long userId,@RequestBody @Valid User user) {
         return new ResponseEntity<>(service.updateUser(userId,user),HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping
+    public ResponseEntity<UserDto> userWithdrawal(@PathVariable @Valid long userId,@RequestBody @Valid BigDecimal amount) {
+        return new ResponseEntity<>(service.withdraw(userId,amount),HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping
+    public ResponseEntity<UserDto> userDeposit(@PathVariable @Valid long userId,@RequestBody @Valid BigDecimal amount) {
+        return new ResponseEntity<>(service.deposit(userId,amount),HttpStatus.ACCEPTED);
     }
 }

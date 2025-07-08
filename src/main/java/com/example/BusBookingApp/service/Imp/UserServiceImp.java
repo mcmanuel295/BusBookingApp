@@ -89,21 +89,36 @@ public class UserServiceImp  implements UserService {
         return  "failed";
     }
 
-    @Override
-    public void payment(Long userID, BigDecimal amount) {
-        User user = userRepo.findById(userID).orElseThrow(()-> new UserNotFoundException("User with Id"+userID+" not found"));
-        user.withdraw(amount);
-    }
 
-    public BigDecimal withdraw(User user,BigDecimal amount){
 
-        if (user.getWalletAmount().compareTo(BigDecimal.valueOf(0)) <0 || user.getWalletAmount().compareTo(amount)<0 ) {
+    public UserDto withdraw(long userId,BigDecimal amount){
+        Optional<User> user = userRepo.findById(userId);
+
+        if (user.isEmpty()) {
+            throw new UserNotFoundException("the User with ID "+userId+" not found");
+        }
+
+        if (user.get().getWalletAmount().compareTo(BigDecimal.valueOf(0)) < 0 || user.get().getWalletAmount().compareTo(amount)<0 ) {
             throw new RuntimeException("Invalid transaction");
         }
 
-       user.getWalletAmount() =walletAmount.subtract(amount);
-        this.setWalletAmount(walletAmount);
-        return walletAmount;
+        user.get().setWalletAmount( user.get().getWalletAmount().add(amount));
+        return UtilsService.toUserDto(userRepo.save(user.get()));
     }
 
+
+    public UserDto deposit(long userId,BigDecimal amount){
+        Optional<User> user = userRepo.findById(userId);
+
+        if (user.isEmpty()) {
+            throw new UserNotFoundException("the User with ID "+userId+" not found");
+        }
+
+        if (user.get().getWalletAmount().compareTo(BigDecimal.valueOf(0)) < 0 || user.get().getWalletAmount().compareTo(amount)<0 ) {
+            throw new RuntimeException("Invalid transaction");
+        }
+
+        user.get().setWalletAmount( user.get().getWalletAmount().add(amount));
+        return UtilsService.toUserDto(userRepo.save(user.get()));
+    }
 }

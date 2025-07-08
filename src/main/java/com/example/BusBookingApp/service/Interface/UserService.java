@@ -21,8 +21,7 @@ public interface UserService {
 
     String login(LoginRequest user);
 
-//    account payment
-    void payment(Long userId, BigDecimal amount);
+    UserDto withdraw(long userId,BigDecimal amount);
 
-    BigDecimal withdraw(User user,BigDecimal amount);
+    UserDto deposit(long userId,BigDecimal amount);
 }

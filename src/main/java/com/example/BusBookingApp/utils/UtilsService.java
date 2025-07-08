@@ -11,10 +11,10 @@ public class UtilsService {
     public static User toUser(UserDto dto){
         var user =new User();
 
-        user.setFirstName(dto.firstName());
-        user.setLastName(dto.lastName());
-        user.setEmail(dto.email());
-        user.setRole(dto.role());
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setEmail(dto.getEmail());
+        user.setWalletAmount(dto.getAmount());
         return user;
     }
 
@@ -24,7 +24,7 @@ public class UtilsService {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
-                user.getRole()
+                user.getWalletAmount()
         );
     }
 
@@ -33,9 +33,9 @@ public class UtilsService {
     public static Booking toBooking(BookingDto dto){
         var booking =new Booking();
 
-        booking.setBookingId(dto.bookingId());
-        booking.setOrigin(dto.origin());
-        booking.setDestination(dto.destination());
+        booking.setBookingId(dto.getBookingId());
+        booking.setOrigin(dto.getOrigin());
+        booking.setDestination(dto.getDestination());
         return booking;
     }
 
