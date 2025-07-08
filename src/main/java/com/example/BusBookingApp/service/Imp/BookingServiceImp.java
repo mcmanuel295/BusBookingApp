@@ -36,7 +36,7 @@ public class BookingServiceImp implements BookingService {
             throw  new BookingException("Booking Price Not Paid");
         }
         User user = booking.getUser();
-        userService.payment(user.getId(), booking.getCost());
+        userService.deposit(user.getUserId(), booking.getCost());
         booking.setHasPaid(true);
 
         Bus bus = busService.getBus(booking.getBusNo() );
