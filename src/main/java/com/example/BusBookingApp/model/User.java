@@ -19,7 +19,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
 
     @Column(
             name = "firstName",
@@ -45,6 +45,7 @@ public class User {
     @Email(message = "email must have the correct format")
     private String email;
 
+    @NonNull
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -59,13 +60,4 @@ public class User {
         return  getLastName()+" "+getFirstName();
     }
 
-    public BigDecimal withdraw(BigDecimal amount){
-        if (walletAmount.compareTo(BigDecimal.valueOf(0)) <0 || walletAmount.compareTo(amount)<0 ) {
-            throw new RuntimeException("Invalid transaction");
-        }
-
-        walletAmount =walletAmount.subtract(amount);
-        this.setWalletAmount(walletAmount);
-        return walletAmount;
-    }
 }
