@@ -48,9 +48,13 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest){
+<<<<<<< HEAD
         if (service.login(loginRequest).equals("failed")) {
             return ResponseEntity.ok("Error logging in");
         }
+=======
+        service.login(loginRequest);
+>>>>>>> f0ac1cd9a228c3c8b560a8d4a325143ab3c68480
         return ResponseEntity.ok("Logged in");
     }
 

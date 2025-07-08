@@ -4,7 +4,10 @@ import com.example.BusBookingApp.UserRequest;
 import com.example.BusBookingApp.dto.UserDto;
 import com.example.BusBookingApp.exception.UserNotFoundException;
 import com.example.BusBookingApp.model.LoginRequest;
+<<<<<<< HEAD
 import com.example.BusBookingApp.model.Role;
+=======
+>>>>>>> f0ac1cd9a228c3c8b560a8d4a325143ab3c68480
 import com.example.BusBookingApp.model.User;
 import com.example.BusBookingApp.repository.UserRepository;
 import com.example.BusBookingApp.service.Interface.UserService;
@@ -47,7 +50,12 @@ public class UserServiceImp  implements UserService {
 
     @Override
     public UserDto getUser(Long userId) {
+<<<<<<< HEAD
         User savedUser = userRepo.findById(userId).orElseThrow(()-> new UserNotFoundException("The User Not Found!!!"));
+=======
+
+        User savedUser = repo.findById(userId).orElseThrow(()-> new UserNotFoundException("The User Not Found!!!"));
+>>>>>>> f0ac1cd9a228c3c8b560a8d4a325143ab3c68480
         return UtilsService.toUserDto(savedUser);
     }
 
@@ -60,8 +68,13 @@ public class UserServiceImp  implements UserService {
 
     @Override
     public void deleteUser(long userId) {
+<<<<<<< HEAD
         userRepo.findById(userId).orElseThrow(()-> new UserNotFoundException("The User Not Found!!!"));
         userRepo.deleteById(userId);
+=======
+        repo.findById(userId).orElseThrow(()-> new UserNotFoundException("The User Not Found!!!"));
+        repo.deleteById(userId);
+>>>>>>> f0ac1cd9a228c3c8b560a8d4a325143ab3c68480
     }
 
     @Override
@@ -89,6 +102,11 @@ public class UserServiceImp  implements UserService {
         return  "failed";
     }
 
+    @Override
+    public void payment(Long userID, BigDecimal amount) {
+        User user = repo.findById(userID).orElseThrow(()-> new UserNotFoundException("User with Id"+userID+" not found"));
+        user.withdraw(amount);
+    }
 
 
     public UserDto withdraw(long userId,BigDecimal amount){
