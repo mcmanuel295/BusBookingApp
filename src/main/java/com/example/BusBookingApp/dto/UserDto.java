@@ -1,11 +1,13 @@
 package com.example.BusBookingApp.dto;
 
 import com.example.BusBookingApp.model.Role;
+import lombok.Data;
 
-public record UserDto(
-        String firstName,
-        String lastName,
-        String email,
-        Role role
-) {
+@Data
+public class UserDto{
+        private String firstName;
+        private String lastName;
+        private String email;
+        private Role role;
+
 }

@@ -1,11 +1,14 @@
 package com.example.BusBookingApp.dto;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
-public record BookingDto(
-        Long bookingId,
-        String origin,
-        String destination,
-        LocalDateTime departureDateTime
-)
-{}
+@Data
+public class BookingDto{
+    Long bookingId;
+    private String origin;
+    String destination;
+    LocalDateTime departureDateTime;
+
+}
